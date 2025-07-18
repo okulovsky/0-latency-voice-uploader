@@ -22,6 +22,7 @@ interface IKaiaConfig {
     wakewordTimeDelta?: number,
     smoothingTimeConstant?: number,
     mediaRecorderChunkLength?: number,
+    proxyUrl?: string
 }
 
 class KaiaApp {
@@ -75,7 +76,7 @@ class KaiaApp {
             
             if (update['type'] == 'reaction_image') {
                 const imageName = update?.payload?.filename
-                const imagePath = `${this.api.config.kaiaServerBaseUrl}/file/${imageName}`
+                const imagePath = `/file/${imageName}`
                 this.uiControl.changePicture(imagePath)
             }
 
@@ -93,7 +94,7 @@ class KaiaApp {
 
             if (update['type'] == 'reaction_audio') {
                 const audioName = update?.payload?.filename
-                const audioPath = `${this.api.config.kaiaServerBaseUrl}/file/${audioName}`
+                const audioPath = `/file/${audioName}`
 
                 this.audioControl.playAudio(audioPath)
                 return
@@ -114,7 +115,8 @@ class KaiaApp {
             const uiControlConfig: IUIControlConfig = {
                 chatContainerId: this.config.chatContainerId,
                 pictureContainerId: this.config.pictureContainerId,
-                placeholderImagePath: this.config.placeholderImagePath
+                placeholderImagePath: this.config.placeholderImagePath,
+                proxyUrl: this.config.proxyUrl
             }
 
             const uiControl = new UIControl(uiControlConfig)
